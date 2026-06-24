@@ -9,7 +9,7 @@ type BrandLogoProps = {
 
 const variantClasses = {
   header: 'h-9 max-w-[180px] sm:h-10 sm:max-w-[200px] xl:max-w-[220px]',
-  footer: 'h-12 max-w-[220px] sm:h-14 sm:max-w-[240px]',
+  footer: 'h-12 max-w-[220px] sm:h-14 sm:max-w-[240px] bg-white',
   compact: 'h-9 max-w-[180px]',
 };
 
