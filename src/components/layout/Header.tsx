@@ -39,11 +39,10 @@ function NavLink({
   return (
     <button
       onClick={onClick}
-      className={`relative text-sm font-medium transition-colors py-1 ${
-        active
+      className={`relative text-sm font-medium transition-colors py-1 ${active
           ? 'text-primary'
           : 'text-muted-foreground hover:text-foreground'
-      }`}
+        }`}
     >
       {label}
       {active && (
@@ -67,7 +66,7 @@ export function Header() {
   );
 
   return (
-    <header className="sticky top-0 z-[60] h-16 border-b border-[#E5E7EB] bg-white/95 shadow-[0_2px_10px_rgba(17,24,39,0.06)] backdrop-blur-xl supports-[backdrop-filter]:bg-white/90">
+    <header className="sticky top-0 z-[50] h-16 border-b border-[#E5E7EB] bg-white/95 shadow-[0_2px_10px_rgba(17,24,39,0.06)] backdrop-blur-xl supports-[backdrop-filter]:bg-white/90">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -149,11 +148,10 @@ export function Header() {
               <button
                 key={link.page}
                 onClick={() => handleNav(link.page)}
-                className={`text-left px-4 py-3 rounded-md text-sm font-medium transition-colors ${
-                  currentPage === link.page
+                className={`text-left px-4 py-3 rounded-md text-sm font-medium transition-colors ${currentPage === link.page
                     ? 'bg-muted text-foreground'
                     : 'text-muted-foreground hover:bg-muted hover:text-foreground'
-                }`}
+                  }`}
               >
                 {link.label}
               </button>
