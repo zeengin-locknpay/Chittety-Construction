@@ -18,6 +18,9 @@ export const metadata: Metadata = {
     "building materials",
   ],
   authors: [{ name: "Chittety Construction" }],
+  icons: {
+    icon: "/brand/favicon.ico",
+  },
   openGraph: {
     title: "Chittety Construction | Construction Materials & Procurement",
     description:
