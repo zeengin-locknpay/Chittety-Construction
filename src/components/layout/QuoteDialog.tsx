@@ -79,8 +79,7 @@ export function QuoteDialog() {
   const sitePhotoRef = useRef<HTMLInputElement>(null);
   const [materialFileName, setMaterialFileName] = useState('');
   const [sitePhotoFileName, setSitePhotoFileName] = useState('');
-
-  const [form, setForm] = useState<FormData>({
+  const initailState = {
     name: '',
     phone: '',
     email: '',
@@ -94,7 +93,8 @@ export function QuoteDialog() {
     deliveryLocation: '',
     requirementType: '',
     message: '',
-  });
+  };
+  const [form, setForm] = useState<FormData>(initailState);
 
   useEffect(() => {
     if (quoteDialogOpen && quotePrefill) {
@@ -183,6 +183,8 @@ export function QuoteDialog() {
         description: `Request ID: ${data.request_id}. Our team will contact you soon.`,
       });
       closeQuoteDialog();
+      setForm(initailState);
+
     } catch (err) {
       toast({
         title: 'Submission failed',
@@ -434,7 +436,10 @@ export function QuoteDialog() {
         </div>
 
         <DialogFooter className="gap-2 sm:gap-0">
-          <Button variant="outline" onClick={closeQuoteDialog} disabled={submitting}>
+          <Button variant="outline" onClick={() => {
+            closeQuoteDialog();
+            setForm(initailState);
+          }} disabled={submitting}>
             Cancel
           </Button>
           <Button
