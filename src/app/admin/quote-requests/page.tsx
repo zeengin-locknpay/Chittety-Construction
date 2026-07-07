@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import Link from 'next/link';
 import { Search, X, Eye, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -40,6 +41,7 @@ const STATUS_OPTIONS = [
   { value: 'New', color: 'bg-blue-50 text-blue-700 border-blue-200' },
   { value: 'In Review', color: 'bg-amber-50 text-amber-700 border-amber-200' },
   { value: 'Quoted', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+  { value: 'url-sent', color: 'bg-purple-50 text-purple-700 border-purple-200' },
   { value: 'Closed', color: 'bg-gray-50 text-gray-600 border-gray-200' },
 ];
 
@@ -195,13 +197,13 @@ export default function AdminQuoteRequests() {
                       </Select>
                     </td>
                     <td className="px-4 py-3 text-center">
-                      <button
-                        onClick={() => setSelectedQuote(q)}
+                      <Link
+                        href={`/admin/quote-requests/${q.id}`}
                         className="inline-flex items-center justify-center size-7 rounded-md hover:bg-[#F3F4F6] transition-colors"
                         title="View details"
                       >
                         <Eye className="size-3.5 text-[#6B7280]" />
-                      </button>
+                      </Link>
                     </td>
                   </tr>
                 ))

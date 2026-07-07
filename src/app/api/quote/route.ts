@@ -38,6 +38,18 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (id) {
+      const quote = await db.quoteRequest.findUnique({
+        where: { id: Number(id) },
+      });
+      if (!quote) {
+        return NextResponse.json({ error: 'Quote request not found' }, { status: 404 });
+      }
+      return NextResponse.json({ quote });
+    }
+
     const status = searchParams.get('status') || '';
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '50');
@@ -78,7 +90,7 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: 'id and status are required' }, { status: 400 });
     }
 
-    const validStatuses = ['New', 'In Review', 'Quoted', 'Closed'];
+    const validStatuses = ['New', 'In Review', 'Quoted', 'Closed', 'url-sent'];
     if (!validStatuses.includes(status)) {
       return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
     }

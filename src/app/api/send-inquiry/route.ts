@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { db } from '@/lib/db';
 
 interface InquiryPayload {
   name?: string;
@@ -122,6 +123,46 @@ export async function POST(request: Request) {
         html: content.html,
         text: content.text,
       });
+    }
+
+    // Save quote request to database
+    try {
+      await db.quoteRequest.create({
+        data: {
+          name: inquiry.name || '',
+          phone: inquiry.phone || '',
+          email: inquiry.email || '',
+          company: inquiry.company_name || '',
+          projectType: inquiry.project_type || '',
+          category: inquiry.category || '',
+          sku: inquiry.product_sku || '',
+          quantity: inquiry.quantity ? Number(inquiry.quantity) || 1 : 1,
+          deliveryLocation: inquiry.delivery_location || '',
+          requirementType: inquiry.requirement_type || '',
+          message: inquiry.message || '',
+          status: 'New',
+        }
+      });
+    } catch (dbError) {
+      console.error('Failed to save quote request to database:', dbError);
+    }
+
+    // Trigger N8N Webhook if configured
+    const n8nWebhookUrl = process.env.N8N_WEBHOOK_URL;
+    if (n8nWebhookUrl) {
+      try {
+        await fetch(n8nWebhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            request_id: id,
+            submitted_at: now.toISOString(),
+            inquiry,
+          }),
+        });
+      } catch (webhookError) {
+        console.error('N8N Webhook error:', webhookError);
+      }
     }
 
     return NextResponse.json({ success: true, request_id: id, message: 'Your inquiry has been sent successfully. Our team will contact you soon.' });

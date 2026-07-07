@@ -8,48 +8,55 @@ datasource db {
 }
 
 model Product {
-  sku             String   @id
-  name            String
-  category        String
-  subcategory     String   @default("")
-  brand           String   @default("")
-  productType     String   @default("")
-  specification   String   @default("")
-  unit            String   @default("Each")
-  moq             Int      @default(1)
-  marketPrice     Float
-  discount        Float    @default(0.1)
-  chittetyPrice   Float
-  availability    String   @default("Vendor Available / Confirm Stock")
-  priceBasis      String   @default("Market reference")
-  shortDescription String  @default("")
-  codePrefix      String   @default("")
+  sku              String   @id
+  name             String
+  category         String
+  subcategory      String   @default("")
+  brand            String   @default("")
+  productType      String   @default("") @map("product_type")
+  specification    String   @default("")
+  unit             String   @default("Each")
+  moq              Int      @default(1)
+  marketPrice      Float    @map("market_price")
+  discount         Float    @default(0.1)
+  chittetyPrice    Float    @map("chittety_price")
+  availability     String   @default("Vendor Available / Confirm Stock")
+  priceBasis       String   @default("Market reference") @map("price_basis")
+  shortDescription String   @default("") @map("short_description")
+  codePrefix       String   @default("") @map("code_prefix")
+
+  @@map("products")
 }
 
 model Service {
   code          String  @id
   category      String
   name          String
-  startingPrice Float
-  priceType     String  @default("Starting From")
+  startingPrice Float   @map("starting_price")
+  priceType     String  @default("Starting From") @map("price_type")
   notes         String  @default("")
   cta           String  @default("")
   source        String  @default("")
+
+  @@map("services")
 }
 
 model QuoteRequest {
-  id                Int      @id @default(autoincrement())
-  name              String
-  phone             String
-  email             String
-  company           String   @default("")
-  projectType       String   @default("")
-  category          String   @default("")
-  sku               String   @default("")
-  quantity          Int      @default(1)
-  deliveryLocation String   @default("")
-  requirementType   String   @default("")
-  message           String   @default("")
-  status            String   @default("New")
-  createdAt         DateTime @default(now())
+  id               Int      @id @default(autoincrement())
+  name             String
+  phone            String
+  email            String
+  company          String   @default("")
+  projectType      String   @default("") @map("project_type")
+  category         String   @default("")
+  sku              String   @default("")
+  quantity         Int      @default(1)
+  deliveryLocation String   @default("") @map("delivery_location")
+  requirementType  String   @default("") @map("requirement_type")
+  message          String   @default("")
+  status           String   @default("New")
+  paymentUrl       String   @default("") @map("payment_url")
+  createdAt        DateTime @default(now()) @map("created_at")
+
+  @@map("quote_requests")
 }
